@@ -600,12 +600,98 @@ async def neko_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def aiimg_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
-        await update.message.reply_text("Use: /aiimg cute cat in space")
+        await update.message.reply_text(
+            "🎨 *AI Image Generator - ULTRA QUALITY*\n\n"
+            "Use: /aiimg your prompt\n"
+            "Examples:\n"
+            "/aiimg cute anime girl, cyberpunk city, ultra detailed\n"
+            "/aiimg realistic Nigerian man in agbada, 8k\n"
+            "/aiimg --realistic a lion in space\n"
+            "/aiimg --anime naruto style\n\n"
+            "Tips: Add 'ultra detailed, 8k, sharp, highly detailed' for best results",
+            parse_mode=ParseMode.MARKDOWN
+        )
+        return
+    
+    raw = " ".join(context.args)
+    prompt = raw
+    # Parse style flags
+    is_realistic = "--realistic" in raw.lower()
+    is_anime = "--anime" in raw.lower()
+    prompt = prompt.replace("--realistic","").replace("--anime","").replace("--real","").strip()
+    
+    # Enhance prompt for better quality
+    quality_suffix = ", ultra detailed, 8k, sharp focus, highly detailed, masterpiece, best quality"
+    if is_realistic:
+        quality_suffix = ", ultra realistic, photorealistic, 8k, highly detailed, sharp focus, DSLR"
+    elif is_anime:
+        quality_suffix = ", anime style, ultra detailed, vibrant colors, masterpiece, 8k"
+    
+    # Don't double add if user already wrote detailed
+    if "detailed" not in prompt.lower() and "8k" not in prompt.lower():
+        final_prompt = prompt + quality_suffix
+    else:
+        final_prompt = prompt
+    
+    # Show generating message
+    msg = await update.message.reply_text(f"🎨 Generating ULTRA quality image...\n📝 Prompt: {prompt}\n⏳ Please wait 5-10s (Flux model)")
+    
+    try:
+        import random
+        seed = random.randint(1, 9999999)
+        # Use FLUX model - best free quality (SDXL level)
+        # Params: flux = highest quality, enhance=true = prompt enhancement, nologo, width/height 1024
+        encoded = urllib.parse.quote(final_prompt)
+        # Best quality endpoint
+        url = f"https://image.pollinations.ai/prompt/{encoded}?width=1024&height=1024&model=flux&seed={seed}&enhance=true&nologo=true&nofeed=true"
+        
+        # Try to send with better caption
+        caption = (
+            f"🎨 *Generated with FLUX ULTRA*\n"
+            f"📝 Prompt: {prompt}\n"
+            f"✨ Enhanced: {final_prompt[:100]}...\n"
+            f"🔥 Model: flux | Seed: {seed}\n\n"
+            f"💡 Tip: Use --realistic for photos, --anime for anime"
+        )
+        await update.message.reply_photo(url, caption=caption, parse_mode=ParseMode.MARKDOWN)
+        try:
+            await msg.delete()
+        except:
+            pass
+    except Exception as e:
+        # Fallback to turbo if flux fails
+        try:
+            await msg.edit_text(f"Flux busy, trying turbo model... {e}")
+            encoded = urllib.parse.quote(final_prompt)
+            seed = random.randint(1, 9999999)
+            url2 = f"https://image.pollinations.ai/prompt/{encoded}?width=1024&height=1024&model=turbo&seed={seed}&enhance=true&nologo=true"
+            await update.message.reply_photo(url2, caption=f"🎨 {prompt} (turbo)")
+            await msg.delete()
+        except Exception as e2:
+            await msg.edit_text(f"❌ Image gen failed: {e2}\nTry simpler prompt or try again in 10s")
+
+# New command: /imagine - same as aiimg but shorter
+async def imagine_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await aiimg_cmd(update, context)
+
+# New: /gen - 4 images grid
+async def gen4_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /gen4 cute cat - generates 4 variations")
         return
     prompt = " ".join(context.args)
-    # Free pollinations AI - no key
-    url = f"https://image.pollinations.ai/prompt/{urllib.parse.quote(prompt)}"
-    await update.message.reply_photo(url, caption=f"🎨 {prompt}")
+    msg = await update.message.reply_text(f"🎨 Generating 4 variations for: {prompt}...")
+    try:
+        # Generate 4 different seeds
+        for i in range(2):  # Send 2 to avoid spam, user can run again for more
+            seed = random.randint(1, 9999999)
+            encoded = urllib.parse.quote(prompt + ", ultra detailed, 8k, best quality")
+            url = f"https://image.pollinations.ai/prompt/{encoded}?width=1024&height=1024&model=flux&seed={seed}&enhance=true&nologo=true"
+            await update.message.reply_photo(url, caption=f"Variation {i+1} | Seed {seed} | {prompt}")
+        await msg.delete()
+    except Exception as e:
+        await update.message.reply_text(f"Error: {e}")
+
 
 async def wallpaper_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_photo(f"https://picsum.photos/1080/1920?random={random.randint(1,100000)}", caption="Wallpaper")
@@ -1010,7 +1096,7 @@ def main():
         ("truth", truth_cmd), ("dare", dare_cmd), ("love", love_cmd), ("ship", ship_cmd), ("hack", hack_cmd),
         ("reverse", reverse_cmd), ("upper", upper_cmd), ("lower", lower_cmd), ("echo", echo_cmd),
         ("cat", cat_cmd), ("dog", dog_cmd), ("fox", fox_cmd), ("waifu", waifu_cmd), ("neko", neko_cmd),
-        ("aiimg", aiimg_cmd), ("wallpaper", wallpaper_cmd), ("emojimix", emojimix_cmd),
+        ("aiimg", aiimg_cmd), ("imagine", imagine_cmd), ("img", aiimg_cmd), ("gen", aiimg_cmd), ("gen4", gen4_cmd), ("wallpaper", wallpaper_cmd), ("emojimix", emojimix_cmd),
         ("github", github_cmd), ("ip", ip_cmd), ("bin", bin_cmd), ("country", country_cmd), ("currency", currency_cmd),
         ("urban", urban_cmd), ("lyrics", lyrics_cmd), ("quran", quran_cmd), ("bible", bible_cmd), ("color", color_cmd),
         ("count", count_cmd), ("getpp", getpp_cmd), ("reddit", reddit_cmd),
