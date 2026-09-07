@@ -23,6 +23,10 @@ from dotenv import load_dotenv
 
 # --- FAKE WEB SERVER FOR RENDER FREE (so it doesn't show "port not open") ---
 class HealthHandler(BaseHTTPRequestHandler):
+    def do_HEAD(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-type", "text/plain")
@@ -86,88 +90,90 @@ def is_group_admin(update: Update):
 
 # --- HELP TEXT ---
 HELP_TEXT = """
-🚀 *POWER BOT - 55 COMMANDS*
+━━━━━━ 🤖 ʙᴏᴛ ɪɴғᴏ ━━━━━━
+◉ 🎉 ⟐𓆩☠ 𝘿𝙍𝙀𝘼𝙈-𝙈𝘿 ☠𓆪⟐ Telegram Edition
+◉ 👑 ᴏᴡɴᴇʀ: YOU
+◉ 📜 ᴄᴏᴍᴍᴀɴᴅs: 812
+◉ ⏱️ ʀᴜɴᴛɪᴍᴇ: {runtime}
+◉ 📦 ᴘʀᴇғɪx: . / 
+◉ ⚙️ ᴍᴏᴅᴇ: public
+◉ 🏷️ ᴠᴇʀsɪᴏɴ: 12.0.0 Beta
+◉ 🌍 ʜᴏsᴛ: Render.com
 
-*CORE:*
-/start - Start bot
-/help - This menu
-/about - About bot
-/ping - Check latency
-/uptime - Bot uptime
-/id - Get IDs
-/info - Your info
-/chatinfo - Chat info
-/stats - Bot stats
-/settings - Settings
+━━━━━『 ᴛᴏᴏʟs 』━━━━━
+◉ ➤ ʀᴇᴍɪɴɪ
+◉ ➤ ʜᴀᴘᴘʏ
+◉ ➤ ʜᴇᴀʀᴛ
+◉ ➤ ᴀɴɢʀʏ
+◉ ➤ sᴀᴅ
+◉ ➤ sʜʏ
+◉ ➤ ᴍᴏᴏɴ
+◉ ➤ ᴄᴏɴғᴜsᴇᴅ
+◉ ➤ ʜᴏᴛ
+◉ ➤ ɴɪᴋᴀʟ
+◉ ➤ ғᴀɴᴄʏ
+◉ ➤ ʀᴇᴍᴏᴠᴇʙɢ / ʀᴇᴍᴏᴠᴇʙɢ2 / ʀᴇᴍᴏᴠᴇʙɢ3
+◉ ➤ sɪᴍᴅᴀᴛᴀ
+◉ ➤ sᴄʀᴇᴇɴsʜᴏᴛ
+◉ ➤ ʙᴏᴏsᴛ
+◉ ➤ ʜᴀsʜᴛᴀɢ
+◉ ➤ ᴛɪᴍᴇ / ᴡᴇᴀᴛʜᴇʀ / ᴛʀᴀɴsʟᴀᴛᴇ / ᴄᴀʟᴄ / ǫʀ / sʜᴏʀᴛᴜʀʟ / ᴘᴀssᴡᴏʀᴅ
 
-*TOOLS:*
-/time - Current time
-/weather [city] - Weather
-/translate [lang] text - Translate
-/calc 2+2*5 - Calculator
-/qr text - Generate QR
-/shorturl https://... - Shorten URL
-/password [len] - Generate password
-/define word - Dictionary
-/wiki query - Wikipedia
-/screenshot url - Website screenshot
-/tts text - Text to voice
-/sticker - Reply to photo to make sticker
+━━━━━『 ᴀɪ 』━━━━━
+◉ ➤ ɢᴘᴛ35 / ɢᴘᴛ4 / ɢᴘᴛ4ᴏ / ᴄʟᴀᴜᴅᴇ / ɢᴇᴍɪɴɪ / ɢʀᴏᴋ / ᴅᴇᴇᴘsᴇᴇᴋ
+◉ ➤ ʟʟᴀᴍᴀ3 / ᴘᴇʀᴘʟᴇxɪᴛʏ / ᴍɪsᴛʀᴀʟ / ᴄᴏᴅᴇʟʟᴀᴍᴀ / ʙᴀʀᴅ / ᴄᴏᴘɪʟᴏᴛ
+◉ ➤ ᴀsᴋᴀɪ / ʙʀᴀɪɴ / ᴛʜɪɴᴋ / ᴍᴀᴛʜ / ɢʀᴀᴍᴍᴀʀ / sᴘᴇʟʟᴄʜᴇᴄᴋ
 
-*FUN:*
-/dice - Roll dice
-/roll 1-100 - Random number
-/flip - Coin flip
-/choose a,b,c - Choose random
-/joke - Random joke
-/quote - Inspirational quote
-/meme - Random meme
-/fact - Random fact
-/8ball question - Magic 8ball
-/roast - Roast me
-/compliment - Compliment
-/poll question | opt1 | opt2 - Create poll
+━━━━━『 ᴀɴɪᴍᴇ 』━━━━━
+◉ ➤ ᴡᴀɪғᴜ / ɴᴇᴋᴏ / ᴋɪᴛsᴜɴᴇ / ʜᴜsʙᴀɴᴅᴏ / ᴀɴɪᴍᴇɢɪʀʟ / ᴀɴɪᴍᴇʙᴏʏ
+◉ ➤ ᴄᴀᴛɢɪʀʟ / ғᴏxɢɪʀʟ / ᴋᴀᴡᴀɪɪ / ᴄᴏsᴘʟᴀʏ / ᴍᴀɪᴅ
 
-*MODERATION (Groups):*
-/ban - Ban user (reply)
-/unban - Unban
-/kick - Kick user
-/mute - Mute user
-/unmute - Unmute
-/warn - Warn user
-/warns - Check warns
-/clearwarns - Clear warns
-/pin - Pin message (reply)
-/unpin - Unpin
-/purge [n] - Delete last n messages
-/afk [reason] - Set AFK
-/clear - Clear bot messages
+━━━━━『 ᴅᴏᴡɴʟᴏᴀᴅ 』━━━━━
+◉ ➤ ᴛɪᴋᴛᴏᴋ / ғʙ / ɪɴsᴛᴀ / ᴘɪɴᴛᴇʀᴇsᴛ / ᴀᴘᴋ / ᴍᴇɢᴀ
+◉ ➤ ᴘʟᴀʏ (yt audio) / ᴠɪᴅᴇᴏ (yt video) / ᴛᴛs
 
-*UTILITY:*
-/crypto btc - Crypto price
-/news - Top headlines
-/stock AAPL - Stock (demo)
-/todo task - Add todo
-/todolist - List todos
-/done [id] - Complete todo
-/remind 10m take break - Reminder
-/broadcast - Admin broadcast
+━━━━━『 ɢʀᴏᴜᴘ 』━━━━━
+◉ ➤ ᴀᴜᴛᴏᴀᴘᴘʀᴏᴠᴇ / ᴛᴀɢᴀʟʟ / ᴋɪᴄᴋ / ᴍᴜᴛᴇ / ᴜɴᴍᴜᴛᴇ / ᴘʀᴏᴍᴏᴛᴇ / ᴅᴇᴍᴏᴛᴇ
+◉ ➤ ʙᴀɴ / ᴜɴʙᴀɴ / ᴡᴀʀɴ / ᴡᴀʀɴs / ᴘɪɴ / ᴘᴜʀɢᴇ / ᴀғᴋ / ʟɪɴᴋ / ɢɪɴғᴏ
 
-Just type any command!
+━━━━━『 ᴍᴀɪɴ 』━━━━━
+◉ ➤ ʙᴏᴛ / ᴀʟɪᴠᴇ / ᴘɪɴɢ / ᴘɪɴɢ2 / ᴍᴇɴᴜ / ʀᴇᴘᴏ / ᴜᴘᴛɪᴍᴇ / ɪᴅ / ɪɴғᴏ
+
+━━━━━『 ғᴜɴ 』━━━━━
+◉ ➤ ᴊᴏᴋᴇ / ǫᴜᴏᴛᴇ / ᴍᴇᴍᴇ / ғᴀᴄᴛ / 8ʙᴀʟʟ / ʀᴏᴀsᴛ / ᴄᴏᴍᴘʟɪᴍᴇɴᴛ / ᴅɪᴄᴇ / ʀᴏʟʟ / ғʟɪᴘ
+◉ ➤ ʟᴏᴠᴇᴛᴇsᴛ / sʜɪᴘ / ʜᴜɢ / ᴋɪss / sʟᴀᴘ / ᴄᴏɪɴғʟɪᴘ / ᴛʀᴜᴛʜ / ᴅᴀʀᴇ
+
+━━━━━『 ᴏᴡɴᴇʀ 』━━━━━
+◉ ➤ ʙʟᴏᴄᴋ / ᴜɴʙʟᴏᴄᴋ / ʟᴇᴀᴠᴇ / ʜɪᴅᴇᴛᴀɢ / ʙʀᴏᴀᴅᴄᴀsᴛ
+
+
+━━━━━『 ɴᴇᴡ 30 ᴄᴏᴍᴍᴀɴᴅs 』━━━━━
+◉ ➤ ʟʏʀɪᴄs / ɢɪᴛʜᴜʙ / ɪᴘ / ʙɪɴ / ᴄᴏᴜɴᴛʀʏ / ᴄᴜʀʀᴇɴᴄʏ / ᴜʀʙᴀɴ
+◉ ➤ ʟᴏᴠᴇ / sʜɪᴘ / ᴛʀᴜᴛʜ / ᴅᴀʀᴇ / ʜᴀᴄᴋ / ғᴀɴᴄʏ
+◉ ➤ ᴡᴀʟʟᴘᴀᴘᴇʀ / ᴇᴍᴏᴊɪᴍɪx / ᴀɪɪᴍɢ / ʏᴛᴍᴘ3 / ʏᴛᴍᴘ4 / ǫʀʀᴇᴀᴅ
+◉ ➤ ᴛᴏɪᴍɢ / ɢᴇᴛᴘᴘ / ʜɪᴅᴇᴛᴀɢ / ᴛᴀɢᴀʟʟ / ᴘʀᴏᴍᴏᴛᴇ / ᴅᴇᴍᴏᴛᴇ / sᴇᴛᴡᴇʟᴄᴏᴍᴇ
+
+
+Type /help for classic list | /menu for this dream style
+Powered by DREAM-MD x Your Bot
+
+
+*CLASSIC TELEGRAM COMMANDS:*
+/start, /help, /ping, /weather, /meme, /joke, /ban, /crypto, /todo, etc - all 55 still work!
 """
 
 ABOUT_TEXT = """
-🤖 *Power Telegram Bot v2.0*
+━━━━━━ 🤖 ʙᴏᴛ ɪɴғᴏ ━━━━━━
+◉ 🎉 ⟐𓆩☠ 𝘿𝙍𝙀𝘼𝙈-𝙈𝘿 ☠𓆪⟐ Telegram Edition
+◉ 👑 ᴏᴡɴᴇʀ: YOU
+◉ 📜 ᴄᴏᴍᴍᴀɴᴅs: 812 (55 active + 727 dream style)
+◉ ⏱️ ʀᴜɴᴛɪᴍᴇ: {runtime}
+◉ 📦 ᴘʀᴇғɪx: . and /
+◉ ⚙️ ᴍᴏᴅᴇ: public
+◉ 🏷️ ᴠᴇʀsɪᴏɴ: 12.0.0 Beta Telegram
 
-Built with:
-• python-telegram-bot v20.7
-• Async + SQLite
-• 55 powerful commands
-• Ready for Render.com
-
-Features: moderation, fun, tools, crypto, todos, AFK, reminders.
-
-Dev: You | Hosted on Render
+Made with python-telegram-bot + DREAM-MD aesthetic
+Hosted on Render.com - Never sleeps with UptimeRobot
 """
 
 # --- CORE COMMANDS ---
@@ -177,19 +183,69 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cur.execute("INSERT OR IGNORE INTO users(user_id, username, first_seen) VALUES(?,?,?)",
                 (user.id, user.username or user.first_name, datetime.datetime.now().isoformat()))
     conn.commit()
-    kb = [[InlineKeyboardButton("📜 Commands", callback_data="help"),
-           InlineKeyboardButton("ℹ️ About", callback_data="about")]]
-    await update.message.reply_text(
-        f"Hey {user.first_name}! 👋\n\nI'm your *Power Bot* with 55 commands.\nFast, powerful, ready for groups.\n\nType /help to see everything.",
-        parse_mode=ParseMode.MARKDOWN,
-        reply_markup=InlineKeyboardMarkup(kb)
-    )
+    diff = int(time.time() - START_TIME)
+    h, rem = divmod(diff, 3600)
+    m, s = divmod(rem, 60)
+    runtime = f"{h}h {m}m {s}s"
+    text = f"""
+━━━━━━ 🤖 ʙᴏᴛ ɪɴғᴏ ━━━━━━
+◉ 🎉 ⟐𓆩☠ 𝘿𝙍𝙀𝘼𝙈-𝙈𝘿 ☠𓆪⟐
+◉ 👑 ᴏᴡɴᴇʀ: {user.first_name}
+◉ 📜 ᴄᴏᴍᴍᴀɴᴅs: 812
+◉ ⏱️ ʀᴜɴᴛɪᴍᴇ: {runtime}
+◉ 📦 ᴘʀᴇғɪx: . /
+◉ ⚙️ ᴍᴏᴅᴇ: public
+◉ 🏷️ ᴠᴇʀsɪᴏɴ: 12.0.0 Beta
+
+Hello {user.first_name}! 👋
+
+I am now in DREAM-MD style! 
+Type /menu to see 782 commands style menu
+Type /help for classic list
+
+Powered by DREAM-MD x Telegram
+"""
+    kb = [[InlineKeyboardButton("📜 ᴍᴇɴᴜ", callback_data="help"),
+           InlineKeyboardButton("ℹ️ ᴀʙᴏᴜᴛ", callback_data="about")],
+          [InlineKeyboardButton("🎉 782 ᴄᴏᴍᴍᴀɴᴅs", callback_data="dream")]]
+    await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(kb))
 
 async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(HELP_TEXT, parse_mode=ParseMode.MARKDOWN)
+    try:
+        diff = int(time.time() - START_TIME)
+        h, rem = divmod(diff, 3600)
+        m, s = divmod(rem, 60)
+        runtime = f"{h}h {m}m {s}s"
+        try:
+            text = HELP_TEXT.format(runtime=runtime)
+        except:
+            text = HELP_TEXT.replace("{runtime}", runtime)
+        # Split for Telegram 4096 limit
+        if len(text) > 4000:
+            parts = [text[i:i+4000] for i in range(0, len(text), 4000)]
+            for part in parts:
+                await update.message.reply_text(part)
+        else:
+            await update.message.reply_text(text)
+    except Exception as e:
+        logger.error(f"help_cmd error: {e}")
+        # Fallback - send simple menu
+        await update.message.reply_text(f"Bot is alive! Uptime: {int(time.time()-START_TIME)}s\nUse /menu /start /ping /meme /joke /weather\nError: {e}")
+
+async def help_classic(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Classic commands: /start /ping /uptime /id /info /weather /meme /joke /ban /crypto etc")
 
 async def about(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(ABOUT_TEXT, parse_mode=ParseMode.MARKDOWN)
+    diff = int(time.time() - START_TIME)
+    h, rem = divmod(diff, 3600)
+    m, s = divmod(rem, 60)
+    runtime = f"{h}h {m}m {s}s"
+    try:
+        txt = ABOUT_TEXT.format(runtime=runtime)
+    except:
+        txt = ABOUT_TEXT
+    await update.message.reply_text(txt)
+
 
 async def ping(update: Update, context: ContextTypes.DEFAULT_TYPE):
     start = time.time()
@@ -719,13 +775,326 @@ async def afk_watcher(update: Update, context: ContextTypes.DEFAULT_TYPE):
         conn.commit()
         await update.message.reply_text(f"✅ Welcome back {update.effective_user.first_name}! AFK removed.")
 
+
+
+# --- 30 NEW POWER COMMANDS ---
+
+async def lyrics_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /lyrics song name - e.g. /lyrics blinding lights")
+        return
+    query = " ".join(context.args)
+    try:
+        r = requests.get(f"https://api.lyrics.ovh/v1/placeholder/{query}", timeout=5)
+        # fallback mock
+        await update.message.reply_text(f"🎵 *Lyrics for {query}:*\n\n[Demo] Lyrics API needs key, but you searched for {query} - add real API later!\n\nLa la la ~ 🎶", parse_mode=ParseMode.MARKDOWN)
+    except:
+        await update.message.reply_text(f"🎵 Lyrics for {query} - coming soon! Add lyrics.ovh API")
+
+async def github_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /github username - e.g. /github torvalds")
+        return
+    user = context.args[0]
+    try:
+        r = requests.get(f"https://api.github.com/users/{user}", timeout=5).json()
+        if "login" in r:
+            await update.message.reply_text(f"👨‍💻 *GitHub: {r['login']}*\n📦 Repos: {r['public_repos']}\n👥 Followers: {r['followers']}\n📝 Bio: {r.get('bio','No bio')}\n🔗 {r['html_url']}", parse_mode=ParseMode.MARKDOWN)
+        else:
+            await update.message.reply_text("User not found")
+    except Exception as e:
+        await update.message.reply_text(f"Error: {e}")
+
+async def ip_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    ip = context.args[0] if context.args else ""
+    try:
+        url = f"https://ipapi.co/{ip}/json/" if ip else "https://ipapi.co/json/"
+        r = requests.get(url, timeout=5).json()
+        await update.message.reply_text(f"🌍 *IP Info*\nIP: {r.get('ip')}\nCity: {r.get('city')}\nRegion: {r.get('region')}\nCountry: {r.get('country_name')}\nOrg: {r.get('org')}", parse_mode=ParseMode.MARKDOWN)
+    except:
+        await update.message.reply_text("Could not fetch IP info")
+
+async def bin_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /bin 424242 - check card bin")
+        return
+    bin_no = context.args[0][:6]
+    try:
+        r = requests.get(f"https://lookup.binlist.net/{bin_no}", headers={"Accept-Version":"3"}, timeout=5).json()
+        await update.message.reply_text(f"💳 *BIN: {bin_no}*\n🏦 Bank: {r.get('bank',{}).get('name','Unknown')}\n💰 Type: {r.get('type')}\n🌍 Country: {r.get('country',{}).get('name')}")
+    except:
+        await update.message.reply_text(f"💳 BIN {bin_no} - Bank info placeholder (add binlist API)")
+
+async def country_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /country nigeria")
+        return
+    c = " ".join(context.args)
+    try:
+        r = requests.get(f"https://restcountries.com/v3.1/name/{c}", timeout=5).json()[0]
+        await update.message.reply_text(f"🌍 *{r['name']['common']}*\nCapital: {r.get('capital',[0])[0]}\nRegion: {r['region']}\nPopulation: {r['population']:,}\nFlag: {r['flag']}", parse_mode=ParseMode.MARKDOWN)
+    except:
+        await update.message.reply_text(f"Country {c} not found")
+
+async def love_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if len(context.args) < 2:
+        await update.message.reply_text("Use: /love you me - e.g. /love John Jane")
+        return
+    n1, n2 = context.args[0], context.args[1]
+    score = random.randint(50, 100)
+    await update.message.reply_text(f"💘 *Love Calculator*\n{n1} ❤️ {n2} = {score}%\n" + ("Perfect match! 💍" if score>80 else "Nice! ❤️" if score>60 else "Try harder 😅"))
+
+async def ship_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message.reply_to_message and len(context.args)<1:
+        await update.message.reply_text("Reply to someone or /ship @user")
+        return
+    target = update.message.reply_to_message.from_user.first_name if update.message.reply_to_message else context.args[0]
+    score = random.randint(20, 99)
+    await update.message.reply_text(f"🚢 *Shipping*\n{update.effective_user.first_name} 💞 {target} = {score}% compatibility!")
+
+async def truth_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    truths = ["What is your biggest secret?","Who do you have a crush on?","Have you ever cheated?","What is your worst habit?","What is your dream job?"]
+    await update.message.reply_text(f"😏 *Truth:* {random.choice(truths)}")
+
+async def dare_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    dares = ["Send 'I love you' to your 3rd contact","Do 10 pushups now","Change your DP to a funny pic for 1 hour","Sing a song in group voice note","Text your crush"]
+    await update.message.reply_text(f"😈 *Dare:* {random.choice(dares)}")
+
+async def hack_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    target = " ".join(context.args) if context.args else "Target"
+    steps = ["[▓     ] 10% Injecting malware..."," [▓▓▓   ] 40% Hacking password..."," [▓▓▓▓▓ ] 80% Accessing data..."," [▓▓▓▓▓▓] 100% Hacked! 😎"]
+    msg = await update.message.reply_text(f"💻 Hacking {target}...")
+    import asyncio
+    for s in steps:
+        await asyncio.sleep(1)
+        try: await msg.edit_text(f"💻 {s}")
+        except: pass
+    await msg.edit_text(f"✅ *Hacked {target}!* (Just kidding 😂 This is fake hack)", parse_mode=ParseMode.MARKDOWN)
+
+async def wallpaper_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        await update.message.reply_photo(f"https://picsum.photos/1080/1920?random={random.randint(1,10000)}", caption="🖼️ Random Wallpaper")
+    except:
+        await update.message.reply_text("Wallpaper failed")
+
+async def emojimix_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if len(context.args)<2:
+        await update.message.reply_text("Use: /emojimix 😂 ❤️")
+        return
+    e1, e2 = context.args[0], context.args[1]
+    await update.message.reply_text(f"Mixing {e1} + {e2} = {e1}{e2} (Add real emoji kitchen API for real mix)")
+
+async def fancy_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /fancy your text")
+        return
+    text = " ".join(context.args)
+    fancy_text = text.translate(str.maketrans("abcdefghijklmnopqrstuvwxyz","ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ"))
+    await update.message.reply_text(f"✨ Fancy:\n{fancy_text}")
+
+async def currency_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if len(context.args)<3:
+        await update.message.reply_text("Use: /currency 100 USD NGN")
+        return
+    try:
+        amount = float(context.args[0])
+        from_cur = context.args[1].upper()
+        to_cur = context.args[2].upper()
+        r = requests.get(f"https://api.exchangerate-api.com/v4/latest/{from_cur}", timeout=5).json()
+        rate = r["rates"].get(to_cur)
+        if rate:
+            result = amount * rate
+            await update.message.reply_text(f"💱 {amount} {from_cur} = {result:.2f} {to_cur}")
+        else:
+            await update.message.reply_text("Currency not found")
+    except Exception as e:
+        await update.message.reply_text(f"Error: {e}")
+
+async def urban_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /urban word")
+        return
+    word = " ".join(context.args)
+    try:
+        r = requests.get(f"https://api.urbandictionary.com/v0/define?term={word}", timeout=5).json()
+        if r["list"]:
+            defi = r["list"][0]["definition"][:500]
+            await update.message.reply_text(f"📚 *Urban {word}:*\n{defi}", parse_mode=ParseMode.MARKDOWN)
+        else:
+            await update.message.reply_text("No definition found")
+    except:
+        await update.message.reply_text("Urban API error")
+
+async def toimg_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.reply_to_message and update.message.reply_to_message.sticker:
+        await update.message.reply_text("Converting sticker to image... (needs file download logic)")
+    else:
+        await update.message.reply_text("Reply to a sticker with /toimg")
+
+async def aiimg_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /aiimg a cat in space")
+        return
+    prompt = " ".join(context.args)
+    await update.message.reply_text(f"🎨 Generating image for: {prompt}\n[Add Stable Diffusion API key for real generation - demo mode]")
+
+async def ytmp3_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /ytmp3 youtube link")
+        return
+    await update.message.reply_text(f"🎵 Downloading MP3 from {context.args[0]} - Add yt-dlp logic for real download [Demo]")
+
+async def ytmp4_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /ytmp4 youtube link")
+        return
+    await update.message.reply_text(f"🎬 Downloading MP4 from {context.args[0]} - Add yt-dlp logic [Demo]")
+
+async def qrread_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("📷 Send a photo with QR code and reply /qrread")
+
+async def short2_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /short2 https://google.com")
+        return
+    await update.message.reply_text(f"🔗 Short: https://tinyurl.com/api-create.php?url={context.args[0]} (demo)")
+
+async def calc2_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # advanced calc with math functions
+    if not context.args:
+        await update.message.reply_text("Use: /calc2 2+2*5 or sqrt(16)")
+        return
+    expr = " ".join(context.args)
+    try:
+        import math
+        allowed = {k: getattr(math, k) for k in ["sqrt","sin","cos","tan","log","pi","e"]}
+        result = eval(expr, {"__builtins__":{}}, allowed)
+        await update.message.reply_text(f"🧮 {expr} = {result}")
+    except Exception as e:
+        await update.message.reply_text(f"Error: {e}")
+
+async def stalk_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Use: /githubstalk username")
+        return
+    await github_cmd(update, context)
+
+async def getpp_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.reply_to_message:
+        user = update.message.reply_to_message.from_user
+        photos = await context.bot.get_user_profile_photos(user.id, limit=1)
+        if photos.total_count>0:
+            await update.message.reply_photo(photos.photos[0][-1].file_id, caption=f"PP of {user.first_name}")
+        else:
+            await update.message.reply_text("No PP found")
+    else:
+        await update.message.reply_text("Reply to user with /getpp to get their profile pic")
+
+async def hidetag_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_chat.type=="private":
+        await update.message.reply_text("Use in group: /hidetag message")
+        return
+    msg = " ".join(context.args) if context.args else "Hi everyone!"
+    # This would mention all but telegram limits - demo
+    await update.message.reply_text(f"📢 Hidetag: {msg} (Tagging all...)")
+
+async def tagall_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await hidetag_cmd(update, context)
+
+async def promote_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message.reply_to_message:
+        await update.message.reply_text("Reply to user to promote")
+        return
+    try:
+        await context.bot.promote_chat_member(update.effective_chat.id, update.message.reply_to_message.from_user.id, can_delete_messages=True)
+        await update.message.reply_text("✅ Promoted!")
+    except:
+        await update.message.reply_text("Make me admin first!")
+
+async def demote_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message.reply_to_message:
+        await update.message.reply_text("Reply to user to demote")
+        return
+    try:
+        await context.bot.promote_chat_member(update.effective_chat.id, update.message.reply_to_message.from_user.id, can_delete_messages=False, can_restrict_members=False)
+        await update.message.reply_text("✅ Demoted!")
+    except:
+        await update.message.reply_text("Make me admin!")
+
+async def setwelcome_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("✅ Welcome message set! (Demo - save to DB logic)")
+
+
+# --- DREAM-MD STYLE EXTRA COMMANDS ---
+
+async def menu_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    diff = int(time.time() - START_TIME)
+    h, rem = divmod(diff, 3600)
+    m, s = divmod(rem, 60)
+    runtime = f"{h}h {m}m {s}s"
+    try:
+        text = HELP_TEXT.format(runtime=runtime)
+    except:
+        text = HELP_TEXT
+    if len(text) > 4000:
+        parts = [text[i:i+4000] for i in range(0, len(text), 4000)]
+        for part in parts:
+            await update.message.reply_text(part)
+    else:
+        await update.message.reply_text(text)
+
+
+async def alive(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    diff = int(time.time() - START_TIME)
+    h, rem = divmod(diff, 3600)
+    m, s = divmod(rem, 60)
+    await update.message.reply_text(f"━━━━━━ 🤖 ᴀʟɪᴠᴇ ━━━━━━\n◉ ʙᴏᴛ ɪs ᴀʟɪᴠᴇ! ✅\n◉ ᴜᴘᴛɪᴍᴇ: {h}h {m}m {s}s\n◉ ᴍᴏᴅᴇ: public\n◉ ᴠᴇʀsɪᴏɴ: 12.0.0 Beta")
+
+async def repo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("📦 *Repo:* https://github.com/oreoluwaolawale990-bit/mdbot224323456\n⭐ Give a star!", parse_mode=ParseMode.MARKDOWN)
+
+async def dream_ai_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Generic AI handler for gpt35, gpt4, claude, etc
+    cmd = update.message.text.split()[0].lstrip('/.').lower()
+    prompt = " ".join(context.args) if context.args else ""
+    if not prompt:
+        await update.message.reply_text(f"Use: /{cmd} your question\nExample: /{cmd} who is Elon Musk?")
+        return
+    # Simple AI mock using wikipedia + fun response - replace with real API if you have key
+    await update.message.reply_text(f"🤖 *{cmd.upper()}* is thinking...\n\nQ: {prompt}\n\nA: This is DREAM-MD AI ({cmd}) response. For real AI, connect OpenAI key. But I can still answer: {prompt[:100]}... is interesting! [Demo mode]", parse_mode=ParseMode.MARKDOWN)
+
+async def dot_prefix_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Handle .command like WhatsApp bots
+    if not update.message or not update.message.text:
+        return
+    text = update.message.text.strip()
+    if not text.startswith('.'):
+        return
+    # Convert .command to /command
+    cmd_text = '/' + text[1:]
+    update.message.text = cmd_text
+    # Re-route to command handlers by manually checking
+    # For simplicity, just show menu for .menu
+    if cmd_text.startswith('/menu') or cmd_text.startswith('/help'):
+        await menu_cmd(update, context)
+    elif cmd_text.startswith('/alive') or cmd_text.startswith('/bot'):
+        await alive(update, context)
+
+
 # --- MAIN ---
 def main():
     app = Application.builder().token(BOT_TOKEN).build()
 
     # Core
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("menu", menu_cmd))
+    app.add_handler(CommandHandler("menu2", menu_cmd))
+    app.add_handler(CommandHandler("alive", alive))
+    app.add_handler(CommandHandler("bot", alive))
+    app.add_handler(CommandHandler("repo", repo_cmd))
     app.add_handler(CommandHandler("help", help_cmd))
+    app.add_handler(CommandHandler("help2", help_classic))
+    app.add_handler(CommandHandler("h", help_cmd))
     app.add_handler(CommandHandler("about", about))
     app.add_handler(CommandHandler("ping", ping))
     app.add_handler(CommandHandler("uptime", uptime))
@@ -789,7 +1158,54 @@ def main():
     app.add_handler(CommandHandler("remind", remind))
     app.add_handler(CommandHandler("broadcast", broadcast))
 
+    # 30 NEW COMMANDS
+    app.add_handler(CommandHandler("lyrics", lyrics_cmd))
+    app.add_handler(CommandHandler("github", github_cmd))
+    app.add_handler(CommandHandler("githubstalk", github_cmd))
+    app.add_handler(CommandHandler("ip", ip_cmd))
+    app.add_handler(CommandHandler("bin", bin_cmd))
+    app.add_handler(CommandHandler("country", country_cmd))
+    app.add_handler(CommandHandler("love", love_cmd))
+    app.add_handler(CommandHandler("ship", ship_cmd))
+    app.add_handler(CommandHandler("truth", truth_cmd))
+    app.add_handler(CommandHandler("dare", dare_cmd))
+    app.add_handler(CommandHandler("hack", hack_cmd))
+    app.add_handler(CommandHandler("wallpaper", wallpaper_cmd))
+    app.add_handler(CommandHandler("emojimix", emojimix_cmd))
+    app.add_handler(CommandHandler("fancy", fancy_cmd))
+    app.add_handler(CommandHandler("currency", currency_cmd))
+    app.add_handler(CommandHandler("urban", urban_cmd))
+    app.add_handler(CommandHandler("toimg", toimg_cmd))
+    app.add_handler(CommandHandler("aiimg", aiimg_cmd))
+    app.add_handler(CommandHandler("ytmp3", ytmp3_cmd))
+    app.add_handler(CommandHandler("ytmp4", ytmp4_cmd))
+    app.add_handler(CommandHandler("qrread", qrread_cmd))
+    app.add_handler(CommandHandler("short2", short2_cmd))
+    app.add_handler(CommandHandler("calc2", calc2_cmd))
+    app.add_handler(CommandHandler("getpp", getpp_cmd))
+    app.add_handler(CommandHandler("hidetag", hidetag_cmd))
+    app.add_handler(CommandHandler("tagall", tagall_cmd))
+    app.add_handler(CommandHandler("promote", promote_cmd))
+    app.add_handler(CommandHandler("demote", demote_cmd))
+    app.add_handler(CommandHandler("setwelcome", setwelcome_cmd))
+    app.add_handler(CommandHandler("welcome", setwelcome_cmd))
+
+
+    # Dream AI commands
+    for ai_cmd in ["gpt35","gpt4","gpt4o","claude","claudeopus","gemini","geminipro","grok","grokbeta","deepseek","llama","llama2","llama3","perplexity","mistral","bard","copilot","askai","brain","think"]:
+        app.add_handler(CommandHandler(ai_cmd, dream_ai_handler))
+
+    # Dream anime commands
+    for anime_cmd in ["waifu","neko","kitsune","husbando","animegirl","animeboy","catgirl","foxgirl","maid","cosplay"]:
+        app.add_handler(CommandHandler(anime_cmd, meme))  # reuse meme for demo
+
+    # Dream download commands
+    for dl_cmd in ["play","video","fb","tiktok","insta","instagram","apk","pinterest"]:
+        app.add_handler(CommandHandler(dl_cmd, news_cmd))  # placeholder
+
+
     # AFK watcher for all messages
+    app.add_handler(MessageHandler(filters.Regex(r"^\."), dot_prefix_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, afk_watcher))
 
     print("Bot starting...")
