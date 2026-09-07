@@ -1,0 +1,8 @@
+python-telegram-bot==20.7
+python-dotenv==1.0.1
+requests==2.32.3
+qrcode[pil]==8.0
+gTTS==2.5.4
+wikipedia==1.4.0
+deep-translator==1.11.4
+Pillow==10.4.0
